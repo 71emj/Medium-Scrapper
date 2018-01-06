@@ -1,0 +1,68 @@
+body {
+   margin: 0;
+   padding: 0;
+}
+
+section#header {
+   align-items: center;
+   justify-content: center;
+   min-height: 100%;
+   margin-top: 0;
+   margin-bottom: 0;
+}
+
+main#main {
+   min-height: 100%;
+   display: flex;
+   flex-flow: column;
+   background: url("../image/background.png");
+   background-attachment: fixed;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+}
+
+header#nav {
+   position: relative;
+   bottom: 0;
+}
+
+section#body {
+   padding: 7rem 0 2rem;
+   flex: 1;
+}
+
+#body article.ui {
+   margin-bottom: 1rem;
+}
+
+#body article.ui>.segment {
+   height: 21rem;
+   padding: 1.5rem 1rem 1rem;
+}
+
+#show {
+    display: flex;
+    position: absolute;
+    bottom: 4%;
+    left: -5px;
+    justify-content: center;
+    width: 100%;
+}
+
+footer {
+   position: relative;
+   height: 36px;
+}
+
+.ui.main.container {
+   margin-top: 10rem;
+}
+
+.modal .content {
+   min-height: 50vh;
+}
+
+.hidden {
+   display: none !important;
+}

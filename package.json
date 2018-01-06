@@ -1,0 +1,39 @@
+{
+  "name": "medium-scrapper",
+  "version": "1.0.0",
+  "description": "\"this is a scarper build on top of request, cheerio, mongoose and awesome semantic-ui\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"cool\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/71emj/Medium-Scrapper.git"
+  },
+  "keywords": [
+    "cheerio",
+    "mongodb",
+    "mongoose",
+    "semantic-ui",
+    "express",
+    "cheerio"
+  ],
+  "author": "71emj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/71emj/Medium-Scrapper/issues"
+  },
+  "homepage": "https://github.com/71emj/Medium-Scrapper#readme",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^5.0.0-rc2",
+    "morgan": "^1.9.0",
+    "path": "^0.12.7",
+    "request": "^2.83.0",
+    "semantic-ui": "^2.2.13"
+  }
+}
