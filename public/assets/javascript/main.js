@@ -1,4 +1,6 @@
 (function($) {
+   "use strict"
+
    // override dimmer template
    $.fn.dimmer.settings.template = {
       dimmer: function() {
@@ -62,7 +64,6 @@
 
    const submit = function(form) {
       const query = {};
-
       $.map(form.serializeArray(), function(elem, index) {
          query[elem.name] = isNaN(elem.value) ? elem.value.toLowerCase() : parseInt(elem.value);
       });
@@ -79,7 +80,6 @@
 
    const populatePage = function(data) {
       console.log(data);
-
       data.forEach((elem, index) => {
          $("#body>div").append(
             $(`<article id="${index}" class="ui column trasition hidden"></article>`)
@@ -137,7 +137,6 @@
             });
       });
 
-
    $("#search_query").on("submit", async function(event) {
       event.preventDefault();
       body.empty(); // destroy previously scrapped data
@@ -167,9 +166,13 @@
       switchView(event);
       btnShow.removeClass("hidden");
    });
+   
    btnShow.on("click", () => {
       switchView(0);
    });
+   
    $(".selection").dropdown();
+   
    $(".checkbox").checkbox();
+
 }(jQuery));
