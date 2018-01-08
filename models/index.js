@@ -1,8 +1,7 @@
-const util = require("util"),
-   path = require("path"),
+const path = require("path"),
    fs = require("fs");
 
-const controllers = new Array;
+const models = {};
 
 fs
    .readdirSync(__dirname)
@@ -11,10 +10,12 @@ fs
    })
    .forEach((file) => {
       // !!file && require(path.join(__dirname, file))();
-      controllers.push(require(path.join(__dirname, file))());
+      const obj = require(path.join(__dirname, file))();
+      for (let elem in obj) {
+         models[elem] = obj[elem];
+      }
    });
 
-console.log("controllers ready");
-console.log(controllers);
+console.log(models);
 
-module.exports = controllers;
+module.exports = models;

@@ -36,15 +36,15 @@
                <div class="field">
                   <label for="limit">Search Limit: </label>
                   <div class="ui selection dropdown">
-                     <input id="limit" type="hidden" name="limit" value="5" />
+                     <input id="limit" type="hidden" name="limit" value="4" />
                      <i class="dropdown icon"></i>
-                     <div class="default text">5</div>
+                     <div class="default text">4</div>
                      <div class="menu">
-                        <div class="item" data-limit="5">5</div>
-                        <div class="item" data-limit="10">10</div>
-                        <div class="item" data-limit="15">15</div>
+                        <div class="item" data-limit="5">4</div>
+                        <div class="item" data-limit="10">8</div>
+                        <div class="item" data-limit="15">16</div>
                         <div class="item" data-limit="20">20</div>
-                        <div class="item" data-limit="25">25</div>
+                        <div class="item" data-limit="25">24</div>
                      </div>
                   </div>
                </div>
@@ -61,19 +61,19 @@
    </div>
 </section>
 <div id="show">
-   <i class="big angle down icon hidden"></i>
+   <i class="big angle down icon hidden __slide"></i>
 </div>
-<main id="main" class="">
+<main id="main">
    <header id="nav" class="ui inverted vertical masthead center aligned segment">
       <div class="ui container">
          <div class="ui menu">
-            <a class="header item">
+            <a href="/" class="header item">
                <h3 class="logo">Medium Scraper</h3>
             </a>
-            <a class="item">
+            <a href="https://github.com/71emj/Medium-Scrapper" class="item">
                <p>Github</p>
             </a>
-            <a href="" class="item">
+            <a href="/saved" class="item">
                <p>View Saved</p>
             </a>
             <div class="right item">
@@ -100,102 +100,13 @@
          </article>
       </div>
    </section>
-   <footer class="ui container">
+   <footer class="ui centered container">
       <p class="ui ">
          71emj @ Github
       </p>
    </footer>
 </main>
+<script src="./assets/javascript/main.js"></script>
 <script type="text/javascript">
-const header = $("#header"),
-   main = $("#main"),
-   body = $("#body").find("div"),
-   btnShow = $("#show").find("i");
 
-// main.hide();
-main.addClass("hidden");
-
-const switchView = function(flag) {
-   !flag && header.transition({
-      animation: "scale",
-      duration: 500,
-      onComplete: () => {
-         main.transition({
-            animation: "fly up",
-            duration: 2000,
-            displayType: "flex"
-         });
-      }
-   });
-
-   !!flag && header.transition({
-      animation: "scale",
-      duration: 500,
-      onComplete: () => {
-         main.transition("scale")
-      }
-   });
-}
-
-const submit = function(form) {
-   const query = {};
-
-   $.map(form.serializeArray(), function(elem, index) {
-      query[elem.name] = isNaN(elem.value) ? elem.value.toLowerCase() : parseInt(elem.value);
-   });
-
-   return new Promise((resolve) => {
-
-      $.post("/scrap", query)
-         .then((data) => {
-            switchView(0);
-            resolve(data);
-         });
-   });
-};
-
-const populatePage = function(data) {
-   console.log(data);
-
-   data.forEach((elem, index) => {
-      $("#body>div").append(
-         $(`<article id="${index}" class="ui column trasition hidden"></article>`)
-         .append($(`<div class="ui segment"></div>`)
-            .append($(`<h2 class="ui header">`).text(elem.title))
-            .append($(`<div class="ui divider">`))
-            .append($(`<p>`).text(elem.article))
-         )
-      );
-   });
-}
-
-
-$("#search_query").on("submit", async function(event) {
-   event.preventDefault();
-   body.empty(); // destroy previously scrapped data
-   btnShow.removeClass("hidden").css({ opacity: "toggle" });
-   
-   // animate loading
-   const button = $("button[type=\"submit\"]");
-   button.addClass("loading");
-
-   const data = await submit($(this));
-   populatePage(data);
-
-   // remove loading animation
-   button.removeClass("loading");
-
-   //animate creation
-   setTimeout(() => {
-      $("article").transition({
-         animation: "scale",
-         duration: 800,
-         interval: 300
-      });
-   }, 2500);
-});
-
-$("#return").on("click", switchView);
-$(".selection").dropdown();
-$(".checkbox").checkbox();
 </script>

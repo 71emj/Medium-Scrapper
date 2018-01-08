@@ -1,0 +1,234 @@
+<main id="main" class="--main">
+   <header id="nav" class="ui inverted vertical masthead center aligned segment">
+      <div class="ui container">
+         <div class="ui menu">
+            <a href="/" class="header item">
+               <h3 class="logo">Medium Scraper</h3>
+            </a>
+            <a href="https://github.com/71emj/Medium-Scrapper" class="item">
+               <p>Github</p>
+            </a>
+            <a href="/" class="item">
+               <p>Scrap More</p>
+            </a>
+            <div class="right item">
+               <div id="filter" class="ui inverted tranparent left small icon input">
+                  <input type="text" name="filter" placeholder="Filter..." />
+                  <!-- selection -->
+                  <i class="search icon"></i>
+               </div>
+            </div>
+         </div>
+      </div>
+   </header>
+   <section id="body" class="ui container">
+      <div class="ui stackable four column doubling relaxed grid">
+         {{#each data}}
+         <article class="ui column __trigger" data-id="{{this._id}}">
+            <div class="ui link cards">
+               <div class="card">
+                  <div class="content">
+                     <div class="header">
+                        {{this.title}}
+                     </div>
+                     <div class="ui divider"></div>
+                     <p class="description">
+                        {{this.article}}
+                     </p>
+                     <div class="ui bottom attached olive label">
+                        {{this.createdAt}}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </article>
+         {{/each}}
+      </div>
+   </section>
+   <div class="ui modal">
+      <div class="header">
+         <h2></h2>
+      </div>
+      <div class="scrolling content">
+         <div class="ui two column grid">
+            <div class="ui six wide column">
+               <p id="text"></p>
+            </div>
+            <div id="note_container" class="ui ten wide column">
+               <section class="ui segment __note">
+                  <div class="ui grid">
+                     <div class="ui twelve wide column">
+                        Hello
+                     </div>
+                     <span class="ui four wide right aligned column">
+                        <i class="trash outline large icon"></i>
+                     </span>
+                  </div>
+               </section>
+               <div id="add" class="ui column __trigger" style="text-align: center">
+                  <i class="add big olive circle icon"></i>
+               </div>
+            </div>
+         </div>
+         <div class="ui bottom attached olive label">
+         </div>
+      </div>
+   </div>
+   <footer class="ui centered container">
+      <p class="ui centered aligned">
+         71emj @ Github
+      </p>
+   </footer>
+</main>
+<script type="text/javascript">
+const articleNotes = JSON.parse(`{{json notes}}`); // pass notes with article _id as key
+console.log(articleNotes);
+
+const modalContent = function(card, notes) {
+   return new Promise((resolve) => {
+      // console.log(card.find("p").text());
+      const articleId = card.closest("article").data("id"),
+         relatedNote = notes[articleId];
+
+      console.log(articleId);
+      console.log(relatedNote);
+
+      const modalBody = $(".ui.modal"),
+         title = card.find(".header").text(),
+         content = card.find(".description").text();
+
+      // empty notes first 
+      $.each(modalBody.find(".__note"), (i, elem) => {
+         emptyNote(elem);
+      });
+
+      relatedNote.forEach((elem) => {
+         createEntry(elem);
+      });
+
+      modalBody
+         .attr("data-curid", articleId)
+         .find("h2").text(title).end()
+         .find("#text").text(content);
+
+      resolve(modalBody);
+   });
+}
+
+$("article .cards>.card").on("click", function() {
+   modalContent($(this).closest(".card"), articleNotes)
+      .then((modalBody) => {
+         modalBody
+            .modal('setting', 'transition', "fade up")
+            .modal("show");
+      });
+});
+
+const newNote = function(that) {
+   that.before(
+      $(`<section class="ui segment __note form">
+            <div class="ui grid">
+               <div class="ui ten wide computer eight wide tablet sixteen wide mobile column">
+                  <div class="field">
+                     <textarea rows="3" placeholder="Add a note..."></textarea>
+                  </div>
+               </div>
+               <div class="ui six wide computer eight wide tablet sixteen wide mobile column">
+                  <button class="ui tiny right floated button __discard">
+                     Discard
+                  </button>
+                  <button class="ui tiny right floated primary button __create">
+                     Save
+                  </button>
+               </div>
+            </div>
+         </section>`)
+   );
+};
+
+const deleteNote = function(that) {
+   return new Promise((resolve) => {
+      const articleNote = {
+         articleid: $(".ui.modal").data("curid"),
+         noteid: that.data("id")
+      }
+
+      $.ajax({
+         url: "/api/notes/delete",
+         method: "DELETE",
+         data: articleNote
+      }).then((response) => {
+         console.log(response); // delete from object as well
+         resolve({ that: that, id: that.data("id") });
+      });
+   });
+}
+
+const emptyNote = function(that) {
+   $(that).remove();
+};
+
+const createNote = function(section) {
+   return new Promise((resolve) => {
+      const content = {
+         id: $(".ui.modal").data("curid"),
+         content: section.find("textarea").val()
+      };
+
+      $.post("/api/notes", content).then((response) => {
+         console.log(response); // new notes 
+         resolve(response);
+      });
+   })
+
+};
+
+const createEntry = function(data) {
+   const firstRef = $("#note_container").children().eq(0);
+   firstRef.before(
+      $(`<section class="ui segment __note form" data-id="${data._id}">
+            <div class="ui grid">
+               <div class="ui twelve wide computer column">
+                  ${data.content}
+               </div>
+               <span class="ui four wide computer right aligned column __delete">
+                  <i class="trash outline large icon"></i>
+               </span>
+            </div>
+         </section>`)
+   );
+};
+
+
+$("#add").on("click", function() {
+   newNote($(this));
+});
+
+$(".ui.modal")
+   .on("click", ".__delete", function() {
+      deleteNote($(this).closest("section.__note"))
+         .then((resolve) => {
+            resolve.that.remove();
+            console.log(resolve.id);
+
+            articleNotes[$(".ui.modal").data("curid")].forEach((elem, index, array) => {
+               if (elem._id === resolve.id) {
+                  array.splice(index, 1);
+               }
+            });
+         });
+   })
+   .on("click", ".__discard", function() {
+      $(this).closest("section.__note").remove();
+   })
+   .on("click", ".__create", function() {
+      createNote($(this).closest("section"))
+         .then((data) => {
+            $(this).closest("section.__note").remove();
+            createEntry(data);
+            console.log(data.content);
+            articleNotes[$(".ui.modal").data("curid")].push(data);
+            console.log(articleNotes[$(".ui.modal").data("curid")]);
+         });
+   });
+</script>

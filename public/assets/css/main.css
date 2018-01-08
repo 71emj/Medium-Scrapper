@@ -22,6 +22,15 @@ main#main {
    background-position: center;
 }
 
+main#main.--main {
+   background: url("../image/background-bks.jpeg");
+   /* choose appropriate background to search result */
+   background-attachment: fixed;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+}
+
 header#nav {
    position: relative;
    bottom: 0;
@@ -36,18 +45,18 @@ section#body {
    margin-bottom: 1rem;
 }
 
-#body article.ui>.segment {
-   height: 21rem;
-   padding: 1.5rem 1rem 1rem;
+#body article .cards>.card {
+   height: 20rem;
+   padding: .75rem 0 .75rem;
 }
 
 #show {
-    display: flex;
-    position: absolute;
-    bottom: 4%;
-    left: -5px;
-    justify-content: center;
-    width: 100%;
+   display: flex;
+   position: absolute;
+   bottom: 4%;
+   left: -5px;
+   justify-content: center;
+   width: 100%;
 }
 
 footer {
@@ -65,4 +74,35 @@ footer {
 
 .hidden {
    display: none !important;
+}
+
+.ui.dimmer {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: .285rem;
+   box-shadow: 0 0 1px 1px darkgrey;
+   box-sizing: border-box;
+}
+
+article .cards>.card {
+   border: 0px !important;
+   box-shadow: none !important;
+}
+
+.__save,
+.__slide,
+.__trigger,
+.__delete,
+.button {
+   cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   -o-user-select: none;
+   user-select: none;
+}
+
+.ui.modal .content {
+   min-height: 500px;
 }

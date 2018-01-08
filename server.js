@@ -7,7 +7,7 @@ const http = require("http"),
    request = require("request"),
    bodyParser = require("body-parser"),
    handlebars = require("express-handlebars"),
-   cheerio = require("cheerio"),
+   mongoose = require("mongoose"),
    express = require("express");
 
 const app = express(),
@@ -26,11 +26,37 @@ app.use("/dist", express.static(path.join(__dirname, "/semantic/dist")));
 app.use("/assets", express.static(path.join(__dirname, "/public/assets")));
 
 // loading all controllers in
-app.all("*", require("./controllers")());
+app.all("*", require("./controllers"));
 
 server.listen(process.env.PORT || 8000, (err) => {
    if (err) {
       throw err;
    }
+
    console.log("server listening on %s", server.address().port);
+
+   mongoose.Promise = Promise;
+   mongoose.connect("mongodb://localhost/mediumScrapDb")
+      .catch((err) => {
+         throw err;
+      }); // if err theoratically i can switch to a different database or attempt to restart the connection
+});
+
+// before closing server
+server.on("close", (callback) => {
+   console.log("server closing");
+   callback();
+});
+
+process.on('SIGINT', function() {
+   server.close();
+});
+
+// nodemon...not working atm
+process.once('SIGUSR2', function() {
+   server.close(function() {
+      gracefulShutdown(function() {
+         process.kill(process.pid, 'SIGUSR2');
+      });
+   });
 });
