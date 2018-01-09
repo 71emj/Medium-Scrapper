@@ -20,8 +20,7 @@ module.exports = function() {
          .then((result) => {
             console.log(result);
 
-            !!result ? res.status(200).send("success") :
-               res.status(500).send("update failure");
+            res.status(200).send("success");
          }).catch(console.error.bind(console));
    });
 

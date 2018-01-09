@@ -107,7 +107,7 @@ function Main($, articleNotes) {
       );
    };
 
-   $("article .cards>.card").on("click", function() {
+   $("article .card").on("click", function() {
       modalContent($(this).closest(".card"), articleNotes)
          .then((modalBody) => {
             modalBody

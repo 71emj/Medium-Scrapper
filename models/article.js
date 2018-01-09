@@ -20,5 +20,5 @@ module.exports = function() {
    const Article = mongoose.model("Article", articleSchema);
 
    // Export the Note model
-   return { Article: Article };
+   return { Article };
 }

@@ -25,8 +25,8 @@
       <div class="ui stackable four column doubling relaxed grid">
          {{#each data}}
          <article class="ui column __trigger" data-id="{{this._id}}">
-            <div class="ui link cards">
-               <div class="card">
+            <!-- <div class="ui link cards"> -->
+               <div class="ui link card">
                   <div class="content">
                      <div class="header">
                         {{this.title}}
@@ -40,16 +40,17 @@
                      </div>
                   </div>
                </div>
-            </div>
+            <!-- </div> -->
          </article>
          {{/each}}
       </div>
    </section>
    <div class="ui modal">
-      <div class="header">
+      <div class="header equal wide grid">
          <h2></h2>
+         <i class="trash right floated icon"></i>
       </div>
-      <div class="scrolling content">
+      <div class="scrolling content __content">
          <div class="ui two column grid">
             <div class="ui six wide column">
                <p id="text"></p>
@@ -58,7 +59,6 @@
                <section class="ui segment __note">
                   <div class="ui grid">
                      <div class="ui twelve wide column">
-                        Hello
                      </div>
                      <span class="ui four wide right aligned column">
                         <i class="trash outline large icon"></i>
@@ -74,10 +74,16 @@
          </div>
       </div>
    </div>
-   <footer class="ui centered container">
-      <p class="ui centered aligned">
-         71emj @ Github
-      </p>
+   <footer class="ui inverted vertical middle footer segment">
+      <div class="ui container">
+         <div class="ui stackable inverted divided equal height centered grid">
+            <div class="three wide column">
+               <p class="ui inverted center align" style="line-height: 3rem;">
+                  71emj @ Github
+               </p>
+            </div>
+         </div>
+      </div>
    </footer>
 </main>
 <script src="./assets/javascript/save.js"></script>

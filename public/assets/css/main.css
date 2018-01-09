@@ -37,17 +37,15 @@ header#nav {
 }
 
 section#body {
-   padding: 7rem 0 2rem;
+   padding: 7rem 0 5rem;
    flex: 1;
 }
 
-#body article.ui {
-   margin-bottom: 1rem;
-}
-
-#body article .cards>.card {
+#body article .card {
    height: 20rem;
    padding: .75rem 0 .75rem;
+   border: 0px !important;
+   box-shadow: none !important;
 }
 
 #show {
@@ -61,15 +59,11 @@ section#body {
 
 footer {
    position: relative;
-   height: 36px;
+   height: 5rem;
 }
 
 .ui.main.container {
    margin-top: 10rem;
-}
-
-.modal .content {
-   min-height: 50vh;
 }
 
 .hidden {
@@ -85,11 +79,6 @@ footer {
    box-sizing: border-box;
 }
 
-article .cards>.card {
-   border: 0px !important;
-   box-shadow: none !important;
-}
-
 .__save,
 .__slide,
 .__trigger,
@@ -103,6 +92,36 @@ article .cards>.card {
    user-select: none;
 }
 
-.ui.modal .content {
+.ui.modal .__content {
    min-height: 500px;
+}
+
+* {
+   --webkit-transition: all 1s ease-out;
+   -moz-transition: all 1s ease-out;
+   -ms-transition: all 1s ease-out;
+   -o-transition: all 1s ease-out;
+   transition: all 1s ease-out;
+}
+
+@media only screen and (max-width: 767px) {
+   .ui.grid>.stackable.stackable.row>.column,
+   .ui.stackable.grid>.column.grid>.column,
+   .ui.stackable.grid>.column.row>.column,
+   .ui.stackable.grid>.column:not(.row),
+   .ui.stackable.grid>.row>.column,
+   .ui.stackable.grid>.row>.wide.column,
+   .ui.stackable.grid>.wide.column {
+      width: 100%! important;
+   }
+
+   .ui.card {
+    margin: 1rem auto;
+    min-width: 80%;
+    height: 30rem;
+   }
+    
+    #body article {
+        margin-bottom: 1.25rem !important;
+    }
 }

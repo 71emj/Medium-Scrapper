@@ -69,7 +69,6 @@
       });
 
       return new Promise((resolve) => {
-
          $.post("/scrap", query)
             .then((data) => {
                switchView(0);
@@ -82,9 +81,8 @@
       console.log(data);
       data.forEach((elem, index) => {
          $("#body>div").append(
-            $(`<article id="${index}" class="ui column trasition hidden"></article>`)
-            .html(`<div class="ui cards">
-               <div class="card">
+            $(`<article id="${index}" class="ui transition column hidden"></article>`)
+            .html(`<div class="ui card">
                   <div class="content">
                      <div class="header">
                         ${elem.title}
@@ -96,7 +94,6 @@
                      <div class="ui bottom attached label">
                         ${"hello"}
                      </div>
-                  </div>
                </div>
             </div>`)
          );
