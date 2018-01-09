@@ -36,7 +36,7 @@ server.listen(process.env.PORT || 8000, (err) => {
    console.log("server listening on %s", server.address().port);
 
    mongoose.Promise = Promise;
-   mongoose.connect("mongodb://localhost/mediumScrapDb")
+   mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/mediumScrapDb")
       .catch((err) => {
          throw err;
       }); // if err theoratically i can switch to a different database or attempt to restart the connection
