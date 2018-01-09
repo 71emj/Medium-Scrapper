@@ -96,13 +96,13 @@ footer {
    min-height: 500px;
 }
 
-* {
+/** {
    --webkit-transition: all 1s ease-out;
    -moz-transition: all 1s ease-out;
    -ms-transition: all 1s ease-out;
    -o-transition: all 1s ease-out;
    transition: all 1s ease-out;
-}
+}*/
 
 @media only screen and (max-width: 767px) {
    .ui.grid>.stackable.stackable.row>.column,
