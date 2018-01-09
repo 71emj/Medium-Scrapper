@@ -3,7 +3,7 @@ function Main($, articleNotes) {
 
    const renderCategory = function() {
       let obj = {};
-      
+
       $("#category").find(".item").each((i, elem) => {
          if (obj[elem.innerHTML]) {
             $(elem).remove();
@@ -24,7 +24,7 @@ function Main($, articleNotes) {
          console.log(articleId);
          console.log(relatedNote);
 
-         const modalBody = $(".ui.modal"),
+         const modalBody = $(".ui.modal:not(.--error)"),
             title = card.find(".header").text(),
             author = card.closest("article").data("author"),
             link = card.closest("article").data("href"),
@@ -49,6 +49,11 @@ function Main($, articleNotes) {
          resolve(modalBody);
       });
    }
+
+   const emptyModal = function() {
+      $(".ui.modal.--error").modal("show");
+   }
+
 
    const newNote = function(that) {
       that.before(
@@ -75,7 +80,7 @@ function Main($, articleNotes) {
    const deleteNote = function(that) {
       return new Promise((resolve) => {
          const articleNote = {
-            articleid: $(".ui.modal").data("curid"),
+            articleid: $(".ui.modal:not(.--error)").data("curid"),
             noteid: that.data("id")
          }
 
@@ -97,7 +102,7 @@ function Main($, articleNotes) {
    const createNote = function(section) {
       return new Promise((resolve) => {
          const content = {
-            articleId: $(".ui.modal").attr("data-curid"),
+            articleId: $(".ui.modal:not(.--error)").attr("data-curid"),
             content: section.find("textarea").val()
          };
 
@@ -136,7 +141,13 @@ function Main($, articleNotes) {
       });
    };
 
+
    renderCategory();
+   const savedArticles = document.querySelectorAll("article.__trigger");
+
+   if (!savedArticles[0]) {
+      emptyModal();
+   }
 
    $("article .card").on("click", function() {
       modalContent($(this).closest(".card"), articleNotes)
@@ -153,14 +164,14 @@ function Main($, articleNotes) {
       newNote($(this));
    });
 
-   $(".ui.modal")
+   $(".ui.modal:not(.--error)")
       .on("click", "#del", function() {
-         const modalBody = $(".ui.modal"),
+         const modalBody = $(".ui.modal:not(.--error)"),
             articleId = modalBody.attr("data-curid");
 
          console.log(articleId);
          delArticle(articleId).then((res) => {
-            $(`[data-curid="${articleId}"]`).remove();
+            $(`article[data-id="${articleId}"]`).remove();
             modalBody.modal("hide");
          });
       })
@@ -170,7 +181,7 @@ function Main($, articleNotes) {
                resolve.that.remove();
                console.log(resolve.id);
 
-               articleNotes[$(".ui.modal").attr("data-curid")].forEach((elem, index, array) => {
+               articleNotes[$(".ui.modal:not(.--error)").attr("data-curid")].forEach((elem, index, array) => {
                   if (elem._id === resolve.id) {
                      array.splice(index, 1);
                   }
@@ -187,32 +198,32 @@ function Main($, articleNotes) {
                createEntry(data);
                // console.log(data.content);
 
-               articleNotes[$(".ui.modal").attr("data-curid")].push(data);
-               console.log($(".ui.modal").data("curid"));
-               console.log($(".ui.modal").attr("data-curid"));
+               articleNotes[$(".ui.modal:not(.--error)").attr("data-curid")].push(data);
+               console.log($(".ui.modal:not(.--error)").data("curid"));
+               console.log($(".ui.modal:not(.--error)").attr("data-curid"));
             });
       });
 
    $(".dropdown")
-   	.dropdown()
-   	.on("click", ".item", function() {
-   		const selCat = $(this).attr("data-category");
-			console.log("This is Sel", selCat);   		
-   		if (selCat === "default") {
-   			const cards = $("article.__trigger");
-   			cards.removeClass("hidden");
-   			return;
-   		}
+      .dropdown()
+      .on("click", ".item", function() {
+         const selCat = $(this).attr("data-category");
+         console.log("This is Sel", selCat);
+         if (selCat === "default") {
+            const cards = $("article.__trigger");
+            cards.removeClass("hidden");
+            return;
+         }
 
-   		$("article.__trigger").each((i, elem) => {
-   			const target = $(elem);
+         $("article.__trigger").each((i, elem) => {
+            const target = $(elem);
 
-   			if (target.attr("data-category") !== selCat && !target.hasClass("hidden")) {
-   				console.log(target.attr("data-category"));
-   				target.transition("fade");
-   			} else if (target.attr("data-category") === selCat) {
-   				target.hasClass("hidden") && target.transition("fade");
-   			}
-   		});
-   	});
+            if (target.attr("data-category") !== selCat && !target.hasClass("hidden")) {
+               console.log(target.attr("data-category"));
+               target.transition("fade");
+            } else if (target.attr("data-category") === selCat) {
+               target.hasClass("hidden") && target.transition("fade");
+            }
+         });
+      });
 };
