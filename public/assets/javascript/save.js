@@ -12,6 +12,8 @@ function Main($, articleNotes) {
 
          const modalBody = $(".ui.modal"),
             title = card.find(".header").text(),
+            author = card.closest("article").data("author"),
+            link = card.closest("article").data("href"),
             content = card.find(".description").text();
 
          // empty notes first 
@@ -25,7 +27,9 @@ function Main($, articleNotes) {
 
          modalBody
             .attr("data-curid", articleId)
-            .find("h2").text(title).end()
+            .find("h1").text(title).end()
+            .find("#link").attr("href", link).end()
+            .find("#author").text(`by ${author}`).end()
             .find("#text").text(content);
 
          resolve(modalBody);

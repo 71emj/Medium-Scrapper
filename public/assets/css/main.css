@@ -92,17 +92,28 @@ footer {
    user-select: none;
 }
 
-.ui.modal .__content {
+.ui.modal .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: .5rem;
+}
+
+.ui.modal .header>h1 {
+    margin-bottom: 0;
+}
+
+.ui.modal .--content {
    min-height: 500px;
 }
 
-/** {
-   --webkit-transition: all 1s ease-out;
-   -moz-transition: all 1s ease-out;
-   -ms-transition: all 1s ease-out;
-   -o-transition: all 1s ease-out;
-   transition: all 1s ease-out;
-}*/
+* {
+   --webkit-transition: all 1.5s ease-out;
+   -moz-transition: all 1.5s ease-out;
+   -ms-transition: all 1.5s ease-out;
+   -o-transition: all 1.5s ease-out;
+   transition: all 1.5s ease-out;
+}
 
 @media only screen and (max-width: 767px) {
    .ui.grid>.stackable.stackable.row>.column,

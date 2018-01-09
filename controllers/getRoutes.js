@@ -43,7 +43,6 @@ module.exports = function() {
    });
 
    pageRoute.get("/*?", function(req, res) {
-
       res.status(200).render("index");
    });
 

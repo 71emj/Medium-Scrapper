@@ -81,18 +81,23 @@
       console.log(data);
       data.forEach((elem, index) => {
          $("#body>div").append(
-            $(`<article id="${index}" class="ui transition column hidden"></article>`)
+            $(`<article id="${index}" class="ui transition column hidden" data-category="${elem.category}"></article>`)
             .html(`<div class="ui card">
                   <div class="content">
                      <div class="header">
-                        ${elem.title}
+                        <h3 data-href="${elem.link}">
+                           ${elem.title}
+                        </h3>
+                     </div>
+                     <div class="meta">
+                        by ${elem.author}
                      </div>
                      <div class="ui divider"></div>
                      <p class="description">
                         ${elem.article}
                      </p>
-                     <div class="ui bottom attached label">
-                        ${"hello"}
+                     <div datetime="${elem.datetime}" class="ui bottom attached olive label">
+                        Posted on ${elem.time}
                      </div>
                </div>
             </div>`)
@@ -115,8 +120,12 @@
          console.log($(this).closest("article"));
          const article = $(this).closest("article");
          save({
-               title: article.find(".header").text(),
-               article: article.find(".description").text()
+               link: article.find(".header>h3").data("href"),
+               title: article.find(".header>h3").text(),
+               article: article.find(".description").text(),
+               author: article.find(".meta").text(),
+               datetime: article.find(".label").attr("datetime"),
+               category: article.data("category")
             })
             .then((res) => {
                article.find(".card>.content").css({
@@ -163,13 +172,13 @@
       switchView(event);
       btnShow.removeClass("hidden");
    });
-   
+
    btnShow.on("click", () => {
       switchView(0);
    });
-   
+
    $(".selection").dropdown();
-   
+
    $(".checkbox").checkbox();
 
 }(jQuery));

@@ -4,8 +4,12 @@ module.exports = function() {
    const Schema = mongoose.Schema;
 
    const articleSchema = new Schema({
+      link: String,
       title: String,
       article: String,
+      author: String,
+      datetime: Date,
+      category: String,
       notes: [{
          type: Schema.Types.ObjectId,
          ref: "Note"

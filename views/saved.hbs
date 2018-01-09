@@ -24,35 +24,39 @@
    <section id="body" class="ui container">
       <div class="ui stackable four column doubling relaxed grid">
          {{#each data}}
-         <article class="ui column __trigger" data-id="{{this._id}}">
+         <article class="ui column __trigger" data-id="{{this._id}}" data-category="{{this.category}}" data-author="{{this.author}}" data-href="{{this.link}}">
             <!-- <div class="ui link cards"> -->
-               <div class="ui link card">
-                  <div class="content">
-                     <div class="header">
-                        {{this.title}}
-                     </div>
-                     <div class="ui divider"></div>
-                     <p class="description">
-                        {{this.article}}
-                     </p>
-                     <div class="ui bottom attached olive label">
-                        {{this.createdAt}}
-                     </div>
+            <div class="ui link card">
+               <div class="content">
+                  <div class="header">
+                     {{this.title}}
+                  </div>
+                  <div class="ui divider"></div>
+                  <p class="description">
+                     {{this.article}}
+                  </p>
+                  <div class="ui bottom attached olive label">
+                     {{this.createdAt}}
                   </div>
                </div>
+            </div>
             <!-- </div> -->
          </article>
          {{/each}}
       </div>
    </section>
    <div class="ui modal">
-      <div class="header equal wide grid">
-         <h2></h2>
-         <i class="trash right floated icon"></i>
+      <div class="header">
+         <h1></h1>
+         <i class="trash link icon"></i>
       </div>
-      <div class="scrolling content __content">
+      <div class="scrolling content --content">
          <div class="ui two column grid">
             <div class="ui six wide column">
+               <h4 id="author" class="meta"></h4>
+               <a id="link" href="">
+                  Read original article from Medium
+               </a>
                <p id="text"></p>
             </div>
             <div id="note_container" class="ui ten wide column">
