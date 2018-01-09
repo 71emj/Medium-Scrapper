@@ -1,6 +1,8 @@
+
 body {
    margin: 0;
    padding: 0;
+   overflow-y: scroll;
 }
 
 section#header {
@@ -29,6 +31,18 @@ main#main.--main {
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center;
+}
+
+main#main .selection.dropdown {
+    min-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 0;
+}
+
+main#main .selection.dropdown:focus {
+    border: 1px solid rgba(34,36,38,.15);
+    border-color: #96c8da;
 }
 
 header#nav {
@@ -106,6 +120,8 @@ footer {
 .ui.modal .--content {
    min-height: 500px;
 }
+
+
 
 * {
    --webkit-transition: all 1.5s ease-out;

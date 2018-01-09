@@ -12,10 +12,24 @@
                <p>Scrap More</p>
             </a>
             <div class="right item">
-               <div id="filter" class="ui inverted tranparent left small icon input">
+               <!-- <div id="filter" class="ui inverted tranparent left small icon input">
                   <input type="text" name="filter" placeholder="Filter..." />
-                  <!-- selection -->
                   <i class="search icon"></i>
+               </div> -->
+               <div class="ui selection dropdown">
+                  <input type="hidden" name="filter" />
+                  <!-- <i class="dropdown icon"></i> -->
+                  <div class="default text">Category...</div>
+                  <div id="category" class="menu">
+                     <div class="item" data-category="default">All</div>
+                     {{#each data}}
+                     <div class="item" data-category="{{this.category}}">
+                        {{this.category}}
+                     </div>
+                     {{/each}}
+                     <!-- <div class="item">Disabled</div>
+                     <div class="item">Choice 3</div> -->
+                  </div>
                </div>
             </div>
          </div>

@@ -1,6 +1,20 @@
 function Main($, articleNotes) {
    "use strict";
 
+   const renderCategory = function() {
+      let obj = {};
+      
+      $("#category").find(".item").each((i, elem) => {
+         if (obj[elem.innerHTML]) {
+            $(elem).remove();
+            return;
+         }
+         obj[elem.innerHTML] = true;
+         const text = elem.innerHTML.trim();
+         elem.innerHTML = text.replace(/[a-z]/i, text[0].toUpperCase());
+      });
+   }
+
    const modalContent = function(card, notes) {
       return new Promise((resolve) => {
          // console.log(card.find("p").text());
@@ -122,6 +136,8 @@ function Main($, articleNotes) {
       });
    };
 
+   renderCategory();
+
    $("article .card").on("click", function() {
       modalContent($(this).closest(".card"), articleNotes)
          .then((modalBody) => {
@@ -173,7 +189,30 @@ function Main($, articleNotes) {
 
                articleNotes[$(".ui.modal").attr("data-curid")].push(data);
                console.log($(".ui.modal").data("curid"));
-            	console.log($(".ui.modal").attr("data-curid"));
+               console.log($(".ui.modal").attr("data-curid"));
             });
       });
+
+   $(".dropdown")
+   	.dropdown()
+   	.on("click", ".item", function() {
+   		const selCat = $(this).attr("data-category");
+			console.log("This is Sel", selCat);   		
+   		if (selCat === "default") {
+   			const cards = $("article.__trigger");
+   			cards.removeClass("hidden");
+   			return;
+   		}
+
+   		$("article.__trigger").each((i, elem) => {
+   			const target = $(elem);
+
+   			if (target.attr("data-category") !== selCat && !target.hasClass("hidden")) {
+   				console.log(target.attr("data-category"));
+   				target.transition("fade");
+   			} else if (target.attr("data-category") === selCat) {
+   				target.hasClass("hidden") && target.transition("fade");
+   			}
+   		});
+   	});
 };
