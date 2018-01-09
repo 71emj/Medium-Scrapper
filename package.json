@@ -32,7 +32,6 @@
     "mongoose": "^5.0.0-rc2",
     "morgan": "^1.9.0",
     "path": "^0.12.7",
-    "request": "^2.83.0",
-    "semantic-ui": "^2.2.13"
+    "request": "^2.83.0"
   }
 }
