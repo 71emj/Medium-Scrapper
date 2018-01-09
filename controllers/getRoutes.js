@@ -43,7 +43,14 @@ module.exports = function() {
    });
 
    pageRoute.get("/*?", function(req, res) {
-      res.status(200).render("index");
+      const imgpath = require("../lib/image.js")(),
+         image = `background: url("./assets/image/${imgpath}"); ` +
+   			`background-attachment: fixed; ` +
+   			`background-size: cover; ` +
+   			`background-repeat: no-repeat; ` +
+   			`background-position: center;`
+
+      res.status(200).render("index", { image: image });
    });
 
    pageRoute.post("/scrap", async function(req, res) {
@@ -53,7 +60,7 @@ module.exports = function() {
       scraper(req.body.topic, req.body.limit).then((data) => {
          res.status(200).json(data);
       }).catch((err) => {
-      	res.status(404).send(err);
+         res.status(404).send(err);
       });
 
    });
