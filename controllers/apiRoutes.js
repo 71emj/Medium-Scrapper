@@ -1,4 +1,5 @@
 const apiRoute = new require("express").Router(),
+   searchRecord = require("../lib/data_record.js"),
    dataBase = require("../models");
 
 module.exports = function() {
@@ -18,9 +19,12 @@ module.exports = function() {
       dataBase.Article
          .create(req.body)
          .then((result) => {
-            console.log(result);
-
             res.status(200).send("success");
+            // console.log(JSON.stringify(req.body));
+
+            searchRecord(/*JSON.stringify(req.body)*/req.body.link).then((data) => {
+               // console.log(data);
+            });
          }).catch(console.error.bind(console));
    });
 
@@ -33,7 +37,7 @@ module.exports = function() {
          .then((result) => {
             console.log(result);
 
-            return dataBase.Article.findOneAndUpdate({ _id: req.body.id }, {
+            return dataBase.Article.findOneAndUpdate({ _id: req.body.articleId }, {
                $push: { notes: result._id }
             }, { new: true });
          })
@@ -58,7 +62,7 @@ module.exports = function() {
             console.log(result);
 
             return dataBase.Article.findOneAndUpdate({ _id: req.body.articleid }, {
-            	$pull: { notes: req.body.noteid }
+               $pull: { notes: req.body.noteid }
             });
          })
          .then((data) => {

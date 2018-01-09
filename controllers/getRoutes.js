@@ -52,6 +52,8 @@ module.exports = function() {
 
       scraper(req.body.topic, req.body.limit).then((data) => {
          res.status(200).json(data);
+      }).catch((err) => {
+      	res.status(404).send(err);
       });
 
    });

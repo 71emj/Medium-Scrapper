@@ -8,6 +8,7 @@ module.exports = function() {
       title: String,
       article: String,
       author: String,
+      time: String,
       datetime: Date,
       category: String,
       notes: [{

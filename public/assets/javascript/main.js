@@ -53,13 +53,16 @@
 
    const save = function(json) {
       return new Promise((resolve) => {
-         $.post("/api/save", json)
-            .then((response) => {
-               console.log(response);
-               resolve(true);
-            });
+         $.ajax({
+            url: "/api/save",
+            method: "POST",
+            data: json,
+            traditional: true
+         }).then((response) => {
+            console.log(response);
+            resolve(true);
+         });
       });
-
    };
 
    const submit = function(form) {
@@ -121,9 +124,10 @@
          const article = $(this).closest("article");
          save({
                link: article.find(".header>h3").data("href"),
-               title: article.find(".header>h3").text(),
-               article: article.find(".description").text(),
-               author: article.find(".meta").text(),
+               title: article.find(".header>h3").text().replace(/(\n\s+)/g, ""),
+               article: article.find(".description").text().replace(/(\n\s+)/g, ""),
+               author: article.find(".meta").text().replace("by ", "").replace(/(\n\s+)/g, ""),
+               time: article.find(".label").text().replace("Posted on ", "").replace(/(\n\s+)/g, ""),
                datetime: article.find(".label").attr("datetime"),
                category: article.data("category")
             })

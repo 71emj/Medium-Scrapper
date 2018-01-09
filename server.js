@@ -8,6 +8,7 @@ const http = require("http"),
    bodyParser = require("body-parser"),
    handlebars = require("express-handlebars"),
    mongoose = require("mongoose"),
+   recordInit = require("./lib/data_record.js"),
    express = require("express");
 
 const app = express(),
@@ -37,9 +38,13 @@ server.listen(process.env.PORT || 8000, (err) => {
 
    mongoose.Promise = Promise;
    mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/mediumScrapDb")
+      .then(() => {
+         recordInit();
+      })
       .catch((err) => {
          throw err;
       }); // if err theoratically i can switch to a different database or attempt to restart the connection
+
 });
 
 // before closing server

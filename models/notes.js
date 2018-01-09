@@ -4,6 +4,7 @@ module.exports = function() {
    const Schema = mongoose.Schema;
 
    const noteSchema = new Schema({
+      articleId: Schema.Types.ObjectId,
       content: String,
       createdAt: {
       	type: Date,

@@ -1,5 +1,5 @@
 function Main($, articleNotes) {
-	"use strict";
+   "use strict";
 
    const modalContent = function(card, notes) {
       return new Promise((resolve) => {
@@ -83,7 +83,7 @@ function Main($, articleNotes) {
    const createNote = function(section) {
       return new Promise((resolve) => {
          const content = {
-            id: $(".ui.modal").data("curid"),
+            articleId: $(".ui.modal").data("curid"),
             content: section.find("textarea").val()
          };
 
@@ -92,7 +92,6 @@ function Main($, articleNotes) {
             resolve(response);
          });
       })
-
    };
 
    const createEntry = function(data) {
@@ -125,6 +124,9 @@ function Main($, articleNotes) {
    });
 
    $(".ui.modal")
+      .on("click", "#del", function() {
+      	
+      })
       .on("click", ".__delete", function() {
          deleteNote($(this).closest("section.__note"))
             .then((resolve) => {
