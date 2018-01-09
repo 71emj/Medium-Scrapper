@@ -1,5 +1,5 @@
 const apiRoute = new require("express").Router(),
-   searchRecord = require("../lib/data_record.js"),
+   searchRecord = require("../lib/searchRec.js"),
    dataBase = require("../models");
 
 module.exports = function() {
@@ -64,6 +64,24 @@ module.exports = function() {
             return dataBase.Article.findOneAndUpdate({ _id: req.body.articleid }, {
                $pull: { notes: req.body.noteid }
             });
+         })
+         .then((data) => {
+            console.log(data);
+
+            // res.status(200).json(data.notes);
+            res.status(200).send("deleted");
+         }).catch(console.error.bind(console));
+   });
+
+   apiRoute.delete("/api/saved/delete", function(req, res) {
+      console.log(req.query["articleid"]);
+
+      dataBase.Article
+         .deleteOne({ _id: req.query["articleid"] })
+         .then((result) => {
+            console.log(result);
+
+            return dataBase.Note.remove({ articleId: req.query["articleid"] });
          })
          .then((data) => {
             console.log(data);

@@ -8,7 +8,7 @@ const http = require("http"),
    bodyParser = require("body-parser"),
    handlebars = require("express-handlebars"),
    mongoose = require("mongoose"),
-   recordInit = require("./lib/data_record.js"),
+   recordInit = require("./lib/searchRec.js"),
    express = require("express");
 
 const app = express(),

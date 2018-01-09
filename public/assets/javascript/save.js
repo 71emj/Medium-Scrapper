@@ -83,7 +83,7 @@ function Main($, articleNotes) {
    const createNote = function(section) {
       return new Promise((resolve) => {
          const content = {
-            articleId: $(".ui.modal").data("curid"),
+            articleId: $(".ui.modal").attr("data-curid"),
             content: section.find("textarea").val()
          };
 
@@ -110,9 +110,23 @@ function Main($, articleNotes) {
       );
    };
 
+   const delArticle = function(articleId) {
+      return new Promise((resolve) => {
+         $.ajax({
+            url: `/api/saved/delete?articleid=${articleId}`,
+            method: "DELETE",
+         }).then((res) => {
+            console.log(res);
+            resolve(res);
+         });
+      });
+   };
+
    $("article .card").on("click", function() {
       modalContent($(this).closest(".card"), articleNotes)
          .then((modalBody) => {
+            console.log(modalBody.attr("data-curid"));
+
             modalBody
                .modal('setting', 'transition', "fade up")
                .modal("show");
@@ -125,7 +139,14 @@ function Main($, articleNotes) {
 
    $(".ui.modal")
       .on("click", "#del", function() {
-      	
+         const modalBody = $(".ui.modal"),
+            articleId = modalBody.attr("data-curid");
+
+         console.log(articleId);
+         delArticle(articleId).then((res) => {
+            $(`[data-curid="${articleId}"]`).remove();
+            modalBody.modal("hide");
+         });
       })
       .on("click", ".__delete", function() {
          deleteNote($(this).closest("section.__note"))
@@ -133,7 +154,7 @@ function Main($, articleNotes) {
                resolve.that.remove();
                console.log(resolve.id);
 
-               articleNotes[$(".ui.modal").data("curid")].forEach((elem, index, array) => {
+               articleNotes[$(".ui.modal").attr("data-curid")].forEach((elem, index, array) => {
                   if (elem._id === resolve.id) {
                      array.splice(index, 1);
                   }
@@ -148,9 +169,11 @@ function Main($, articleNotes) {
             .then((data) => {
                $(this).closest("section.__note").remove();
                createEntry(data);
-               console.log(data.content);
-               articleNotes[$(".ui.modal").data("curid")].push(data);
-               console.log(articleNotes[$(".ui.modal").data("curid")]);
+               // console.log(data.content);
+
+               articleNotes[$(".ui.modal").attr("data-curid")].push(data);
+               console.log($(".ui.modal").data("curid"));
+            	console.log($(".ui.modal").attr("data-curid"));
             });
       });
 };
